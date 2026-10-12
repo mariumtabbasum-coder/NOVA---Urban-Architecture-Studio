@@ -633,14 +633,17 @@ textarea:focus-visible {
   font-style: normal;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
   overflow-wrap: anywhere;
 }
 
 .contact__item {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.contact__item:last-child {
+  margin-bottom: 0;
 }
 
 .contact__item-label {
@@ -650,6 +653,7 @@ textarea:focus-visible {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-sage);
+  margin-bottom: 0.25rem;
 }
 
 .contact__item-value {
@@ -661,10 +665,9 @@ textarea:focus-visible {
 }
 
 .contact__link {
-  min-height: 2.75rem;
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   color: var(--color-charcoal);
+  padding-block: 0.125rem;
 }
 
 /* Contact Form Card (Proportional, stable box with generous fluid padding) */
