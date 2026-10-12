@@ -2,5 +2,7 @@
   "name": "NOVA - Urban Architecture Studio",
   "description": "Spaces that shape how we live. Urban architecture studio NOVA portfolio and spaces showcase.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
