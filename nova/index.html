@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOVA — Urban Architecture Studio</title>
     <meta name="description" content="NOVA is an urban architecture studio crafting spaces that shape how we live through refined spatial design, sustainable materiality, and contextual integrity.">
-    
+
     <!-- Open Graph Metadata -->
     <meta property="og:title" content="NOVA — Urban Architecture Studio">
     <meta property="og:description" content="Spaces that shape how we live. Urban architecture and spatial design studio NOVA portfolio.">
@@ -17,15 +17,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Stylesheet -->
+    <!-- Shared Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body id="top">
     <!-- Header -->
     <header class="header">
       <div class="container header__inner">
-        <a href="#top" class="header__logo">NOVA</a>
+        <a href="#top" class="header__logo" aria-label="NOVA Studio Homepage">NOVA</a>
 
+        <!-- Desktop Navigation (Displayed on viewports >= 768px) -->
         <nav class="nav" aria-label="Main Navigation">
           <ul class="nav__list">
             <li><a href="#studio" class="nav__link">Studio</a></li>
@@ -36,9 +37,66 @@
         </nav>
 
         <div class="header__action">
-          <a href="#spaces" class="button button--outline">Explore</a>
+          <a href="#spaces" class="button button--outline header__explore">Explore</a>
+
+          <!-- Mobile Hamburger Toggle (Zero-JS Native Popover API, Safe 44x44px touch target) -->
+          <button
+            type="button"
+            class="nav-toggle"
+            popovertarget="mobile-nav"
+            aria-label="Open mobile navigation menu"
+          >
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+            <span class="nav-toggle__bar" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
+
+      <!-- Mobile Navigation Drawer (Native HTML Popover API, Zero-JS) -->
+      <nav id="mobile-nav" class="mobile-nav" popover aria-label="Mobile Navigation">
+        <div class="mobile-nav__header">
+          <span class="mobile-nav__logo">NOVA</span>
+          <button
+            type="button"
+            class="mobile-nav__close"
+            popovertarget="mobile-nav"
+            popovertargetaction="hide"
+            aria-label="Close navigation menu"
+          >
+            &times;
+          </button>
+        </div>
+
+        <ul class="mobile-nav__list">
+          <li>
+            <a href="#studio" class="mobile-nav__link" popovertarget="mobile-nav" popovertargetaction="hide">
+              Studio
+            </a>
+          </li>
+          <li>
+            <a href="#spaces" class="mobile-nav__link" popovertarget="mobile-nav" popovertargetaction="hide">
+              Spaces
+            </a>
+          </li>
+          <li>
+            <a href="#journal" class="mobile-nav__link" popovertarget="mobile-nav" popovertargetaction="hide">
+              Journal
+            </a>
+          </li>
+          <li>
+            <a href="#contact" class="mobile-nav__link" popovertarget="mobile-nav" popovertargetaction="hide">
+              Contact
+            </a>
+          </li>
+        </ul>
+
+        <div class="mobile-nav__action">
+          <a href="#spaces" class="button button--primary button--full" popovertarget="mobile-nav" popovertargetaction="hide">
+            Explore Studio
+          </a>
+        </div>
+      </nav>
     </header>
 
     <!-- Main Content -->
@@ -309,7 +367,7 @@
         <div class="footer__grid">
           <!-- Column 1: Brand -->
           <div class="footer__brand">
-            <a href="#top" class="footer__logo">NOVA</a>
+            <a href="#top" class="footer__logo" aria-label="NOVA Studio Homepage">NOVA</a>
             <p class="footer__tagline">
               Urban architecture and spatial design studio creating timeless environments.
             </p>
