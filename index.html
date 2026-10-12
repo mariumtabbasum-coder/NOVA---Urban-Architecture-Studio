@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOVA — Urban Architecture Studio</title>
     <meta name="description" content="NOVA is an urban architecture studio crafting spaces that shape how we live through refined spatial design, sustainable materiality, and contextual integrity.">
     
@@ -26,26 +26,16 @@
       <div class="container header__inner">
         <a href="#top" class="header__logo">NOVA</a>
 
-        <button class="menu-button" type="button" popovertarget="site-menu" aria-label="Open menu">
-          <svg class="menu-button__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <nav class="nav" aria-label="Main Navigation">
+          <ul class="nav__list">
+            <li><a href="#studio" class="nav__link">Studio</a></li>
+            <li><a href="#spaces" class="nav__link">Spaces</a></li>
+            <li><a href="#journal" class="nav__link">Journal</a></li>
+            <li><a href="#contact" class="nav__link">Contact</a></li>
+          </ul>
+        </nav>
 
-        <div class="menu" id="site-menu" popover>
-          <button class="menu__close" type="button" popovertarget="site-menu" popovertargetaction="hide" aria-label="Close menu">
-            <svg class="menu__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-              <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <nav aria-label="Main navigation">
-            <ul class="nav">
-              <li><a href="#studio" class="nav__link">Studio</a></li>
-              <li><a href="#spaces" class="nav__link">Spaces</a></li>
-              <li><a href="#journal" class="nav__link">Journal</a></li>
-              <li><a href="#contact" class="nav__link">Contact</a></li>
-            </ul>
-          </nav>
+        <div class="header__action">
           <a href="#spaces" class="button button--outline">Explore</a>
         </div>
       </div>
