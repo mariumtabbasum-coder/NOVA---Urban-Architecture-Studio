@@ -37,6 +37,7 @@ body.dark-mode {
 body.dark-mode .hero__description,
 body.dark-mode .card__description,
 body.dark-mode .featured__description,
+body.dark-mode .portal__intro,
 body.dark-mode .contact__intro {
   color: rgba(245, 242, 235, 0.82);
 }
@@ -46,6 +47,7 @@ body.dark-mode .header {
 }
 
 body.dark-mode .card--journal,
+body.dark-mode .portal__card,
 body.dark-mode .contact__card {
   border-color: rgba(245, 242, 235, 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
@@ -157,6 +159,7 @@ textarea:focus-visible {
 .spaces,
 .featured,
 .journal,
+.portal,
 .contact {
   scroll-margin-top: 5.625rem;
 }
@@ -1006,6 +1009,319 @@ body.dark-mode .form__message.is-success {
 }
 
 /* ==========================================================================
+   Project 4: Secure Form & Portal Module (Mobile Base)
+   ========================================================================== */
+.portal {
+  padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+  border-top: 1px solid rgba(29, 29, 27, 0.06);
+}
+
+body.dark-mode .portal {
+  border-top-color: rgba(245, 242, 235, 0.08);
+}
+
+.portal__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.portal__details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.portal__intro {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: rgba(29, 29, 27, 0.8);
+  margin-bottom: 2rem;
+  max-width: 32rem;
+}
+
+.portal__features {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-top: 1px solid rgba(29, 29, 27, 0.1);
+  padding-top: 1.5rem;
+}
+
+body.dark-mode .portal__features {
+  border-top-color: rgba(245, 242, 235, 0.1);
+}
+
+.portal__feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.portal__feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-terracotta);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+body.dark-mode .portal__feature-icon {
+  color: #141413;
+}
+
+.portal__feature-text {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-charcoal);
+}
+
+.portal__feature-text strong {
+  font-weight: 600;
+  margin-bottom: 0.125rem;
+}
+
+.portal__feature-text span {
+  opacity: 0.8;
+  font-size: 0.8125rem;
+}
+
+.portal__card {
+  width: 100%;
+  background-color: var(--color-white);
+  border-radius: var(--radius-card);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  border: 1px solid rgba(29, 29, 27, 0.08);
+  box-shadow: 0 4px 20px rgba(29, 29, 27, 0.04);
+  box-sizing: border-box;
+}
+
+/* Valid Input State */
+.form__input.is-valid {
+  border-color: #276936;
+  background-color: rgba(39, 105, 54, 0.04);
+}
+
+.form__input.is-valid:focus-visible {
+  outline-color: #276936;
+  border-color: #276936;
+}
+
+body.dark-mode .form__input.is-valid {
+  border-color: #72C787;
+  background-color: rgba(114, 199, 135, 0.08);
+}
+
+body.dark-mode .form__input.is-valid:focus-visible {
+  outline-color: #72C787;
+  border-color: #72C787;
+}
+
+/* Form Label Extra Elements */
+.form__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.form__label-row .form__label {
+  margin-bottom: 0;
+}
+
+.form__required {
+  color: #9E2B1E;
+  margin-left: 0.125rem;
+}
+
+body.dark-mode .form__required {
+  color: #F28B7E;
+}
+
+.secure-form__toggle-pw {
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-terracotta);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-button);
+}
+
+.secure-form__toggle-pw:hover {
+  text-decoration: underline;
+  color: var(--color-terracotta-deep);
+}
+
+.secure-form__toggle-pw:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Error message below each input */
+.secure-form__error {
+  display: none;
+  margin-top: 0.375rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #9E2B1E;
+}
+
+.secure-form__error.is-visible {
+  display: block;
+}
+
+body.dark-mode .secure-form__error {
+  color: #F28B7E;
+}
+
+.secure-form__policy {
+  margin-top: 0.375rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--color-sage);
+  line-height: 1.4;
+}
+
+/* Success Banner / Toast Summary */
+.secure-form__banner {
+  background-color: rgba(39, 105, 54, 0.08);
+  border: 1.5px solid #276936;
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: bannerFade 0.3s ease;
+}
+
+body.dark-mode .secure-form__banner {
+  background-color: rgba(114, 199, 135, 0.1);
+  border-color: #72C787;
+}
+
+@keyframes bannerFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.secure-form__banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.secure-form__banner-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #276936;
+  margin: 0;
+  flex: 1;
+}
+
+body.dark-mode .secure-form__banner-title {
+  color: #72C787;
+}
+
+.secure-form__banner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: #276936;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+body.dark-mode .secure-form__banner-badge {
+  background-color: #72C787;
+  color: #141413;
+}
+
+.secure-form__banner-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-charcoal);
+  cursor: pointer;
+  padding: 0.25rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secure-form__banner-intro {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-charcoal);
+  margin-bottom: 0.75rem;
+}
+
+.secure-form__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+}
+
+.secure-form__summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(29, 29, 27, 0.08);
+  padding-bottom: 0.25rem;
+}
+
+body.dark-mode .secure-form__summary-row {
+  border-bottom-color: rgba(245, 242, 235, 0.08);
+}
+
+.secure-form__summary-row dt {
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+.secure-form__summary-row dd {
+  color: var(--color-charcoal);
+  opacity: 0.9;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================================
    Footer Section (Mobile Base)
    ========================================================================== */
 .footer {
@@ -1253,9 +1569,10 @@ body.dark-mode .form__message.is-success {
     padding-left: clamp(0.5rem, 2vw, 1.5rem);
   }
 
-  /* Contact Section Balanced 2-Column Grid with Center Alignment */
+  /* Portal & Contact Balanced 2-Column Grids with Center Alignment */
+  .portal__grid,
   .contact__grid {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     align-items: center;
     gap: clamp(2.5rem, 5vw, 4rem);
   }
@@ -1297,7 +1614,8 @@ body.dark-mode .form__message.is-success {
     gap: 4.5rem;
   }
 
-  /* Refined Proportional Contact Alignment */
+  /* Refined Proportional Portal & Contact Alignment */
+  .portal__grid,
   .contact__grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     align-items: center;

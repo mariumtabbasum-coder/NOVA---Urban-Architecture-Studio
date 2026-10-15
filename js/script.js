@@ -29,6 +29,14 @@ const projects = [
     alt: 'Monolithic cultural gallery with serene concrete walls and minimal timber doorway',
     width: '800',
     height: '500'
+  },
+  {
+    title: 'NEXUS WORKPLACE / 2024',
+    description: 'An adaptive urban workspace crafted with natural timber framing and generous daylighting, shaping flexible environments for collective innovation.',
+    image: 'images/workplace.webp',
+    alt: 'Open-plan architectural studio workplace with collaborative wooden desks',
+    width: '800',
+    height: '500'
   }
 ];
 
@@ -214,6 +222,131 @@ function validateForm(event, form, nameInput, emailInput, messageInput, messageE
   messageInput.removeAttribute('aria-invalid');
 }
 
+// ==========================================================================
+// Project 4: Secure Form Design & Validation Module
+// ==========================================================================
+// Phase 3 Validation Rules & Regular Expressions
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PASSWORD_UPPERCASE_REGEX = /[A-Z]/;
+const PASSWORD_LOWERCASE_REGEX = /[a-z]/;
+const PASSWORD_NUMBER_REGEX = /[0-9]/;
+const PASSWORD_SPECIAL_REGEX = /[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\\/~`]/;
+
+// helper: set input visual state and error text
+// input: element, error container, message string, validity boolean
+// process: update classes and accessibility attributes
+// output: rendered error message or valid check
+function setFieldFeedback(inputEl, errorEl, message, isValid) {
+  if (!inputEl || !errorEl) return;
+  if (isValid) {
+    inputEl.classList.remove('is-invalid');
+    inputEl.classList.add('is-valid');
+    inputEl.setAttribute('aria-invalid', 'false');
+    errorEl.textContent = '';
+    errorEl.classList.remove('is-visible');
+  } else {
+    inputEl.classList.remove('is-valid');
+    inputEl.classList.add('is-invalid');
+    inputEl.setAttribute('aria-invalid', 'true');
+    errorEl.textContent = message;
+    errorEl.classList.add('is-visible');
+  }
+}
+
+// validator: full name (minimum 3 characters)
+function validateRegName(nameInput, errorEl) {
+  if (!nameInput) return false;
+  const value = nameInput.value.trim();
+  if (value.length === 0) {
+    setFieldFeedback(nameInput, errorEl, 'Full Name is required.', false);
+    return false;
+  }
+  if (value.length < 3) {
+    setFieldFeedback(nameInput, errorEl, 'Full Name must be at least 3 characters long.', false);
+    return false;
+  }
+  setFieldFeedback(nameInput, errorEl, '', true);
+  return true;
+}
+
+// validator: email address (valid email regex syntax)
+function validateRegEmail(emailInput, errorEl) {
+  if (!emailInput) return false;
+  const value = emailInput.value.trim();
+  if (value.length === 0) {
+    setFieldFeedback(emailInput, errorEl, 'Email Address is required.', false);
+    return false;
+  }
+  if (!EMAIL_REGEX.test(value)) {
+    setFieldFeedback(emailInput, errorEl, 'Please enter a valid email address (e.g., name@example.com).', false);
+    return false;
+  }
+  setFieldFeedback(emailInput, errorEl, '', true);
+  return true;
+}
+
+// validator: password (strict policy: 8+ chars, uppercase, lowercase, number, special char)
+function validateRegPassword(passwordInput, errorEl) {
+  if (!passwordInput) return false;
+  const value = passwordInput.value;
+  if (value.length === 0) {
+    setFieldFeedback(passwordInput, errorEl, 'Password is required.', false);
+    return false;
+  }
+  if (value.length < 8) {
+    setFieldFeedback(passwordInput, errorEl, 'Password must be at least 8 characters long.', false);
+    return false;
+  }
+  if (!PASSWORD_UPPERCASE_REGEX.test(value)) {
+    setFieldFeedback(passwordInput, errorEl, 'Password must include at least one uppercase letter (A-Z).', false);
+    return false;
+  }
+  if (!PASSWORD_LOWERCASE_REGEX.test(value)) {
+    setFieldFeedback(passwordInput, errorEl, 'Password must include at least one lowercase letter (a-z).', false);
+    return false;
+  }
+  if (!PASSWORD_NUMBER_REGEX.test(value)) {
+    setFieldFeedback(passwordInput, errorEl, 'Password must include at least one number (0-9).', false);
+    return false;
+  }
+  if (!PASSWORD_SPECIAL_REGEX.test(value)) {
+    setFieldFeedback(passwordInput, errorEl, 'Password must include at least one special character (@, #, $, etc.).', false);
+    return false;
+  }
+  setFieldFeedback(passwordInput, errorEl, '', true);
+  return true;
+}
+
+// validator: confirm password (must match password field exactly)
+function validateRegConfirmPassword(confirmInput, passwordInput, errorEl) {
+  if (!confirmInput || !passwordInput) return false;
+  const confirmVal = confirmInput.value;
+  const passwordVal = passwordInput.value;
+
+  if (confirmVal.length === 0) {
+    setFieldFeedback(confirmInput, errorEl, 'Please confirm your password.', false);
+    return false;
+  }
+  if (confirmVal !== passwordVal) {
+    setFieldFeedback(confirmInput, errorEl, 'Passwords do not match.', false);
+    return false;
+  }
+  setFieldFeedback(confirmInput, errorEl, '', true);
+  return true;
+}
+
+// helper: password visibility toggle
+function togglePasswordVisibility(buttonEl, inputEl) {
+  if (!buttonEl || !inputEl) return;
+  const isPassword = inputEl.type === 'password';
+  inputEl.type = isPassword ? 'text' : 'password';
+  buttonEl.textContent = isPassword ? 'Hide' : 'Show';
+  buttonEl.setAttribute(
+    'aria-label',
+    isPassword ? 'Hide password as plain text' : 'Show password as plain text'
+  );
+}
+
 // initialization
 function init() {
   // 1. theme setup
@@ -308,6 +441,121 @@ function init() {
       input.addEventListener('input', () => {
         input.classList.remove('is-invalid');
         input.removeAttribute('aria-invalid');
+      });
+    });
+  }
+
+  // 5. secure registration form setup (project 4)
+  const secureForm = document.querySelector('.js-secure-form');
+  const regNameInput = document.querySelector('.js-reg-name');
+  const regEmailInput = document.querySelector('.js-reg-email');
+  const regPasswordInput = document.querySelector('.js-reg-password');
+  const regConfirmInput = document.querySelector('.js-reg-confirm');
+
+  const errorNameEl = document.querySelector('.js-error-name');
+  const errorEmailEl = document.querySelector('.js-error-email');
+  const errorPasswordEl = document.querySelector('.js-error-password');
+  const errorConfirmEl = document.querySelector('.js-error-confirm');
+
+  const successBannerEl = document.querySelector('.js-success-banner');
+  const summaryNameEl = document.querySelector('.js-summary-name');
+  const summaryEmailEl = document.querySelector('.js-summary-email');
+  const closeBannerBtn = document.querySelector('.js-close-banner');
+
+  const togglePwBtn = document.querySelector('.js-toggle-pw');
+  const toggleConfirmPwBtn = document.querySelector('.js-toggle-confirm-pw');
+
+  if (togglePwBtn && regPasswordInput) {
+    togglePwBtn.addEventListener('click', () => {
+      togglePasswordVisibility(togglePwBtn, regPasswordInput);
+    });
+  }
+
+  if (toggleConfirmPwBtn && regConfirmInput) {
+    toggleConfirmPwBtn.addEventListener('click', () => {
+      togglePasswordVisibility(toggleConfirmPwBtn, regConfirmInput);
+    });
+  }
+
+  if (closeBannerBtn && successBannerEl) {
+    closeBannerBtn.addEventListener('click', () => {
+      successBannerEl.setAttribute('hidden', '');
+    });
+  }
+
+  if (secureForm && regNameInput && regEmailInput && regPasswordInput && regConfirmInput) {
+    // real-time validation on input & blur
+    regNameInput.addEventListener('input', () => {
+      validateRegName(regNameInput, errorNameEl);
+    });
+    regNameInput.addEventListener('blur', () => {
+      validateRegName(regNameInput, errorNameEl);
+    });
+
+    regEmailInput.addEventListener('input', () => {
+      validateRegEmail(regEmailInput, errorEmailEl);
+    });
+    regEmailInput.addEventListener('blur', () => {
+      validateRegEmail(regEmailInput, errorEmailEl);
+    });
+
+    regPasswordInput.addEventListener('input', () => {
+      validateRegPassword(regPasswordInput, errorPasswordEl);
+      if (regConfirmInput.value.length > 0) {
+        validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+      }
+    });
+    regPasswordInput.addEventListener('blur', () => {
+      validateRegPassword(regPasswordInput, errorPasswordEl);
+    });
+
+    regConfirmInput.addEventListener('input', () => {
+      validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+    });
+    regConfirmInput.addEventListener('blur', () => {
+      validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+    });
+
+    // Phase 2: Form submission with preventDefault()
+    secureForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const isNameValid = validateRegName(regNameInput, errorNameEl);
+      const isEmailValid = validateRegEmail(regEmailInput, errorEmailEl);
+      const isPasswordValid = validateRegPassword(regPasswordInput, errorPasswordEl);
+      const isConfirmValid = validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+
+      const isFormValid = isNameValid && isEmailValid && isPasswordValid && isConfirmValid;
+
+      if (!isFormValid) {
+        // focus first invalid field for accessibility
+        if (!isNameValid) {
+          regNameInput.focus();
+        } else if (!isEmailValid) {
+          regEmailInput.focus();
+        } else if (!isPasswordValid) {
+          regPasswordInput.focus();
+        } else if (!isConfirmValid) {
+          regConfirmInput.focus();
+        }
+        return;
+      }
+
+      // Phase 4: Success state & summary banner
+      if (successBannerEl && summaryNameEl && summaryEmailEl) {
+        summaryNameEl.textContent = regNameInput.value.trim();
+        summaryEmailEl.textContent = regEmailInput.value.trim();
+        successBannerEl.removeAttribute('hidden');
+        successBannerEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Reset form and clear validation classes
+      secureForm.reset();
+      const allFields = [regNameInput, regEmailInput, regPasswordInput, regConfirmInput];
+      allFields.forEach((field) => {
+        field.classList.remove('is-valid');
+        field.classList.remove('is-invalid');
+        field.removeAttribute('aria-invalid');
       });
     });
   }

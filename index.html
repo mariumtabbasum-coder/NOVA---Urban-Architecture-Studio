@@ -235,6 +235,12 @@
                   aria-label="Show featured project 3"
                   data-project-index="2"
                 >03</button>
+                <button
+                  type="button"
+                  class="featured__dot js-featured-button"
+                  aria-label="Show featured project 4"
+                  data-project-index="3"
+                >04</button>
               </div>
 
               <h3 class="featured__title js-featured-title">CASA TERRA / 2026</h3>
@@ -283,6 +289,222 @@
                 Even a modest courtyard microclimate pulls ocean breezes inward, cooling dense residential footprints while establishing a serene pocket of sky.
               </p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Studio Portal / Secure Registration Form (Project 4) -->
+      <section id="portal" class="portal" aria-labelledby="portal-title">
+        <div class="container">
+          <div class="portal__grid">
+            <!-- Left Column: Information & Architectural Access -->
+            <div class="portal__details">
+              <p class="section-kicker">STUDIO PORTAL</p>
+              <h2 id="portal-title" class="section-title section-title--serif">Client & Commission Access</h2>
+              <p class="portal__intro">
+                Register for dedicated portal access to track spatial commissions, review 3D architectural blueprints, and collaborate directly with our project leads in Karachi and beyond.
+              </p>
+
+              <div class="portal__features">
+                <div class="portal__feature-item">
+                  <span class="portal__feature-icon" aria-hidden="true">&check;</span>
+                  <div class="portal__feature-text">
+                    <strong>Real-Time Project Blueprints</strong>
+                    <span>Access schematic drawings, material specifications, and progress photos.</span>
+                  </div>
+                </div>
+                <div class="portal__feature-item">
+                  <span class="portal__feature-icon" aria-hidden="true">&check;</span>
+                  <div class="portal__feature-text">
+                    <strong>Direct Studio Collaboration</strong>
+                    <span>Communicate directly with structural engineers and principal architects.</span>
+                  </div>
+                </div>
+                <div class="portal__feature-item">
+                  <span class="portal__feature-icon" aria-hidden="true">&check;</span>
+                  <div class="portal__feature-text">
+                    <strong>Strict Security & Privacy</strong>
+                    <span>Validated credentials and encrypted spatial design archives.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Secure Form Card -->
+            <div class="portal__card">
+              <!-- Success Banner / Toast Summary -->
+              <div
+                id="portal-success-banner"
+                class="secure-form__banner js-success-banner"
+                role="status"
+                aria-live="polite"
+                hidden
+              >
+                <div class="secure-form__banner-header">
+                  <span class="secure-form__banner-badge" aria-hidden="true">&check;</span>
+                  <h3 class="secure-form__banner-title">Registration Successful</h3>
+                  <button
+                    type="button"
+                    class="secure-form__banner-close js-close-banner"
+                    aria-label="Dismiss confirmation message"
+                  >&times;</button>
+                </div>
+                <p class="secure-form__banner-intro">Your studio credentials have been created:</p>
+                <dl class="secure-form__summary">
+                  <div class="secure-form__summary-row">
+                    <dt>Full Name:</dt>
+                    <dd class="js-summary-name"></dd>
+                  </div>
+                  <div class="secure-form__summary-row">
+                    <dt>Email Address:</dt>
+                    <dd class="js-summary-email"></dd>
+                  </div>
+                  <div class="secure-form__summary-row">
+                    <dt>Security Policy:</dt>
+                    <dd>Strict 8+ char with special char verified</dd>
+                  </div>
+                  <div class="secure-form__summary-row">
+                    <dt>Access Level:</dt>
+                    <dd>Active Commission Portal Access</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <!-- Phase 1: Semantic HTML5 Skeleton -->
+              <form
+                id="secure-registration-form"
+                class="secure-form js-secure-form"
+                novalidate
+                aria-labelledby="portal-title"
+              >
+                <!-- Full Name Field -->
+                <div class="form__group">
+                  <label for="reg-name" class="form__label">
+                    Full Name <span class="form__required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="reg-name"
+                    name="fullName"
+                    class="form__input secure-form__input js-reg-name"
+                    placeholder="e.g. Eleanor Vance"
+                    required
+                    minlength="3"
+                    autocomplete="name"
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="reg-name-error"
+                  >
+                  <span
+                    id="reg-name-error"
+                    class="secure-form__error js-error-name"
+                    role="alert"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <!-- Email Address Field -->
+                <div class="form__group">
+                  <label for="reg-email" class="form__label">
+                    Email Address <span class="form__required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="reg-email"
+                    name="email"
+                    class="form__input secure-form__input js-reg-email"
+                    placeholder="e.g. eleanor@studio-nova.com"
+                    required
+                    autocomplete="email"
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="reg-email-error"
+                  >
+                  <span
+                    id="reg-email-error"
+                    class="secure-form__error js-error-email"
+                    role="alert"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form__group">
+                  <div class="form__label-row">
+                    <label for="reg-password" class="form__label">
+                      Password <span class="form__required" aria-hidden="true">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      class="secure-form__toggle-pw js-toggle-pw"
+                      aria-label="Show password as plain text"
+                      data-target="reg-password"
+                    >Show</button>
+                  </div>
+                  <input
+                    type="password"
+                    id="reg-password"
+                    name="password"
+                    class="form__input secure-form__input js-reg-password"
+                    placeholder="Minimum 8 characters"
+                    required
+                    autocomplete="new-password"
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="reg-password-error reg-password-policy"
+                  >
+                  <span
+                    id="reg-password-error"
+                    class="secure-form__error js-error-password"
+                    role="alert"
+                    aria-live="polite"
+                  ></span>
+                  <p id="reg-password-policy" class="secure-form__policy">
+                    Must be 8+ characters with uppercase, lowercase, number, and special character (@, #, $, etc.).
+                  </p>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form__group">
+                  <div class="form__label-row">
+                    <label for="reg-confirm" class="form__label">
+                      Confirm Password <span class="form__required" aria-hidden="true">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      class="secure-form__toggle-pw js-toggle-confirm-pw"
+                      aria-label="Show confirm password as plain text"
+                      data-target="reg-confirm"
+                    >Show</button>
+                  </div>
+                  <input
+                    type="password"
+                    id="reg-confirm"
+                    name="confirmPassword"
+                    class="form__input secure-form__input js-reg-confirm"
+                    placeholder="Repeat password"
+                    required
+                    autocomplete="new-password"
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="reg-confirm-error"
+                  >
+                  <span
+                    id="reg-confirm-error"
+                    class="secure-form__error js-error-confirm"
+                    role="alert"
+                    aria-live="polite"
+                  ></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form__action">
+                  <button type="submit" class="button button--primary button--full secure-form__submit js-reg-submit">
+                    Create Account
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </section>
