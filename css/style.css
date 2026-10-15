@@ -3,13 +3,13 @@
    Mobile-First Responsive Stylesheet (Pure CSS3)
    ========================================================================== */
 
-/* Design Tokens */
+/* Design Tokens (Optimized for WCAG AA/AAA Contrast) */
 :root {
   --color-ivory: #F4F1EA;
   --color-charcoal: #1D1D1B;
-  --color-terracotta: #B9684A;
-  --color-terracotta-deep: #A85A3E;
-  --color-sage: #7C8772;
+  --color-terracotta: #C97352;
+  --color-terracotta-deep: #944930;
+  --color-sage: #4E5C45;
   --color-white: #FFFFFF;
 
   --font-serif: "Playfair Display", Georgia, serif;
@@ -58,7 +58,7 @@ body.dark-mode .form__input {
 }
 
 body.dark-mode .form__input::placeholder {
-  color: rgba(245, 242, 235, 0.55);
+  color: rgba(245, 242, 235, 0.72);
 }
 
 body.dark-mode .footer {
@@ -162,6 +162,16 @@ textarea:focus-visible {
 .portal,
 .contact {
   scroll-margin-top: 5.625rem;
+}
+
+/* Off-screen rendering optimization: avoids long main-thread layout and paint tasks */
+.spaces,
+.featured,
+.journal,
+.portal,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
 }
 
 /* Fluid Container (Centered with 1200px max width and fluid inline padding) */
@@ -557,7 +567,7 @@ body.dark-mode .theme-toggle__icon--sun {
   font-size: clamp(2.5rem, 5vw + 0.5rem, 3.5rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--color-terracotta);
+  color: #E29578;
 }
 
 .stats__label {
@@ -1157,7 +1167,7 @@ body.dark-mode .form__required {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-terracotta);
+  color: var(--color-terracotta-deep);
   cursor: pointer;
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-button);
@@ -1165,12 +1175,20 @@ body.dark-mode .form__required {
 
 .secure-form__toggle-pw:hover {
   text-decoration: underline;
-  color: var(--color-terracotta-deep);
+  color: var(--color-charcoal);
 }
 
 .secure-form__toggle-pw:focus-visible {
-  outline: 2px solid var(--color-terracotta);
+  outline: 2px solid var(--color-terracotta-deep);
   outline-offset: 2px;
+}
+
+body.dark-mode .secure-form__toggle-pw {
+  color: var(--color-terracotta);
+}
+
+body.dark-mode .secure-form__toggle-pw:focus-visible {
+  outline-color: var(--color-terracotta);
 }
 
 /* Error message below each input */
@@ -1361,7 +1379,7 @@ body.dark-mode .secure-form__summary-row {
   font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
   max-width: 18rem;
 }
 
@@ -1377,7 +1395,7 @@ body.dark-mode .secure-form__summary-row {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-white);
+  color: #D48466;
   margin-bottom: 0.75rem;
 }
 
@@ -1399,13 +1417,13 @@ body.dark-mode .secure-form__summary-row {
   font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .footer__link {
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
   min-height: 2.75rem;
   min-width: 2.75rem;
   display: inline-flex;
@@ -1427,7 +1445,7 @@ body.dark-mode .secure-form__summary-row {
   min-width: 2.75rem;
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .footer__social-icon {
@@ -1440,14 +1458,14 @@ body.dark-mode .secure-form__summary-row {
 .footer__bottom {
   display: flex;
   justify-content: flex-start;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 1.5rem;
 }
 
 .footer__copyright {
   font-family: var(--font-sans);
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ==========================================================================

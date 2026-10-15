@@ -12,10 +12,19 @@
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts & Resource Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Critical LCP Image Preload -->
+    <link rel="preload" as="image" href="images/hero.webp" type="image/webp" fetchpriority="high">
+
+    <!-- Non-Blocking Google Fonts Loading -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+    </noscript>
 
     <!-- Shared Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
@@ -109,6 +118,8 @@
               class="hero__image"
               width="1120"
               height="900"
+              fetchpriority="high"
+              decoding="async"
             >
           </div>
         </div>
@@ -150,6 +161,7 @@
                   width="800"
                   height="500"
                   loading="lazy"
+                  decoding="async"
                 >
               </figure>
               <h3 class="card__title">Residential</h3>
@@ -168,6 +180,7 @@
                   width="800"
                   height="500"
                   loading="lazy"
+                  decoding="async"
                 >
               </figure>
               <h3 class="card__title">Workplace</h3>
@@ -186,6 +199,7 @@
                   width="800"
                   height="500"
                   loading="lazy"
+                  decoding="async"
                 >
               </figure>
               <h3 class="card__title">Cultural</h3>
@@ -211,6 +225,7 @@
                 width="1100"
                 height="520"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
 

@@ -347,9 +347,24 @@ function togglePasswordVisibility(buttonEl, inputEl) {
   );
 }
 
-// initialization
-function init() {
-  // 1. theme setup
+// ==========================================================================
+// Performance Optimization: Cooperative Task Scheduler & Worker Integration
+// Breaks down long main-thread tasks using requestIdleCallback & Web Worker
+// ==========================================================================
+
+function scheduleTask(taskFn, timeout = 100) {
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(() => taskFn(), { timeout });
+  } else {
+    setTimeout(taskFn, 0);
+  }
+}
+
+// Background validation worker instance
+let validationWorker = null;
+
+// Task 1: Theme Setup & Restoration
+function initTheme() {
   const themeButton = document.querySelector('.js-theme-toggle');
   let savedTheme = null;
   try {
@@ -368,8 +383,10 @@ function init() {
       toggleTheme(themeButton);
     });
   }
+}
 
-  // 2. hamburger menu setup
+// Task 2: Responsive Navigation & Hamburger Drawer
+function initNavigation() {
   const menuButton = document.querySelector('.js-menu-button');
   const navPanel = document.querySelector('.js-nav');
   const navLinks = document.querySelectorAll('.js-nav-link');
@@ -409,8 +426,10 @@ function init() {
       }
     });
   }
+}
 
-  // 3. featured project switcher setup
+// Task 3: Featured Project Carousel & Switcher
+function initFeaturedProjects() {
   const projectButtons = document.querySelectorAll('.js-featured-button');
   const projectTitle = document.querySelector('.js-featured-title');
   const projectDesc = document.querySelector('.js-featured-description');
@@ -423,8 +442,10 @@ function init() {
       showProject(index, projectTitle, projectDesc, projectImage, projectMedia, projectContent, projectButtons);
     });
   });
+}
 
-  // 4. contact form setup
+// Task 4: Contact Form Event Listeners & Validation
+function initContactForm() {
   const contactForm = document.querySelector('.js-contact-form');
   const nameInput = document.querySelector('.js-input-name');
   const emailInput = document.querySelector('.js-input-email');
@@ -444,8 +465,10 @@ function init() {
       });
     });
   }
+}
 
-  // 5. secure registration form setup (project 4)
+// Task 5: Secure Registration Form Core Validation (Project 4)
+function initSecureRegistrationForm() {
   const secureForm = document.querySelector('.js-secure-form');
   const regNameInput = document.querySelector('.js-reg-name');
   const regEmailInput = document.querySelector('.js-reg-email');
@@ -460,7 +483,6 @@ function init() {
   const successBannerEl = document.querySelector('.js-success-banner');
   const summaryNameEl = document.querySelector('.js-summary-name');
   const summaryEmailEl = document.querySelector('.js-summary-email');
-  const closeBannerBtn = document.querySelector('.js-close-banner');
 
   const togglePwBtn = document.querySelector('.js-toggle-pw');
   const toggleConfirmPwBtn = document.querySelector('.js-toggle-confirm-pw');
@@ -477,30 +499,36 @@ function init() {
     });
   }
 
-  if (closeBannerBtn && successBannerEl) {
-    closeBannerBtn.addEventListener('click', () => {
-      successBannerEl.setAttribute('hidden', '');
-    });
-  }
-
   if (secureForm && regNameInput && regEmailInput && regPasswordInput && regConfirmInput) {
-    // real-time validation on input & blur
+    // Real-time validation with Worker delegation & synchronous fallback
     regNameInput.addEventListener('input', () => {
-      validateRegName(regNameInput, errorNameEl);
+      if (validationWorker) {
+        validationWorker.postMessage({ id: 'reg-name-error', type: 'name', value: regNameInput.value });
+      } else {
+        validateRegName(regNameInput, errorNameEl);
+      }
     });
     regNameInput.addEventListener('blur', () => {
       validateRegName(regNameInput, errorNameEl);
     });
 
     regEmailInput.addEventListener('input', () => {
-      validateRegEmail(regEmailInput, errorEmailEl);
+      if (validationWorker) {
+        validationWorker.postMessage({ id: 'reg-email-error', type: 'email', value: regEmailInput.value });
+      } else {
+        validateRegEmail(regEmailInput, errorEmailEl);
+      }
     });
     regEmailInput.addEventListener('blur', () => {
       validateRegEmail(regEmailInput, errorEmailEl);
     });
 
     regPasswordInput.addEventListener('input', () => {
-      validateRegPassword(regPasswordInput, errorPasswordEl);
+      if (validationWorker) {
+        validationWorker.postMessage({ id: 'reg-password-error', type: 'password', value: regPasswordInput.value });
+      } else {
+        validateRegPassword(regPasswordInput, errorPasswordEl);
+      }
       if (regConfirmInput.value.length > 0) {
         validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
       }
@@ -510,13 +538,22 @@ function init() {
     });
 
     regConfirmInput.addEventListener('input', () => {
-      validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+      if (validationWorker) {
+        validationWorker.postMessage({
+          id: 'reg-confirm-error',
+          type: 'confirmPassword',
+          value: regConfirmInput.value,
+          compareValue: regPasswordInput.value
+        });
+      } else {
+        validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
+      }
     });
     regConfirmInput.addEventListener('blur', () => {
       validateRegConfirmPassword(regConfirmInput, regPasswordInput, errorConfirmEl);
     });
 
-    // Phase 2: Form submission with preventDefault()
+    // Form submission handling
     secureForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
@@ -528,7 +565,6 @@ function init() {
       const isFormValid = isNameValid && isEmailValid && isPasswordValid && isConfirmValid;
 
       if (!isFormValid) {
-        // focus first invalid field for accessibility
         if (!isNameValid) {
           regNameInput.focus();
         } else if (!isEmailValid) {
@@ -541,7 +577,7 @@ function init() {
         return;
       }
 
-      // Phase 4: Success state & summary banner
+      // Success state and summary rendering
       if (successBannerEl && summaryNameEl && summaryEmailEl) {
         summaryNameEl.textContent = regNameInput.value.trim();
         summaryEmailEl.textContent = regEmailInput.value.trim();
@@ -549,7 +585,7 @@ function init() {
         successBannerEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
-      // Reset form and clear validation classes
+      // Reset form
       secureForm.reset();
       const allFields = [regNameInput, regEmailInput, regPasswordInput, regConfirmInput];
       allFields.forEach((field) => {
@@ -561,8 +597,62 @@ function init() {
   }
 }
 
+// Task 6: Web Worker Validation Engine Initialization
+function initValidationWorker() {
+  try {
+    if (window.Worker) {
+      validationWorker = new Worker('js/validator.worker.js');
+      validationWorker.onmessage = function(event) {
+        const { id, isValid, message } = event.data || {};
+        const errorEl = document.getElementById(id);
+        if (!errorEl) return;
+        const inputEl = errorEl.previousElementSibling;
+        if (inputEl) {
+          setFieldFeedback(inputEl, errorEl, message, isValid);
+        }
+      };
+    }
+  } catch (error) {
+    // Workers restricted; fallback remains active
+    validationWorker = null;
+  }
+}
+
+// Task 7: Deferred Secondary Enhancements
+function initDeferredEnhancements() {
+  const successBannerEl = document.querySelector('.js-success-banner');
+  const closeBannerBtn = document.querySelector('.js-close-banner');
+
+  if (closeBannerBtn && successBannerEl) {
+    closeBannerBtn.addEventListener('click', () => {
+      successBannerEl.setAttribute('hidden', '');
+    });
+  }
+
+  // Pre-cache next project image during idle time
+  if (projects && projects[1] && projects[1].image) {
+    const preloader = new Image();
+    preloader.src = projects[1].image;
+  }
+}
+
+// Main initialization: Orchestrates 7 segmented tasks without blocking the main thread
+function init() {
+  // Task 1: Critical UI theme restoration (immediate)
+  initTheme();
+
+  // Tasks 2 - 7: Scheduled across idle frames (eliminates long main-thread tasks)
+  scheduleTask(initNavigation, 60);
+  scheduleTask(initFeaturedProjects, 80);
+  scheduleTask(initContactForm, 100);
+  scheduleTask(initSecureRegistrationForm, 120);
+  scheduleTask(initValidationWorker, 140);
+  scheduleTask(initDeferredEnhancements, 160);
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
   init();
 }
+
