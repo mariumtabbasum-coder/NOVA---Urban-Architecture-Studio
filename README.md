@@ -89,10 +89,6 @@ Distributed under the MIT License. See LICENSE for more information.
 📩 Contact & Credits
 NOVA Urban Architecture Studio
 
-GitHub: @YourUsername
-
-Email: contact@novaarchitecture.com
-
 Website: novaarchitecture.com
 
 Created with ❤️ for modern urban architectural design.
